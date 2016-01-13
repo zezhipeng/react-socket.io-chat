@@ -60,9 +60,8 @@
 	    },
 	    componentDidMount: function () {
 	        socket.on("join", this.handleJoin);
-	        socket.on("msg", this.handleMsgRce)
+	        socket.on("msg", this.handleMsgRce);
 	    },
-	
 	    handleJoin: function (msg) {
 	        console.log(msg);
 	        var self = this;
@@ -93,11 +92,15 @@
 	                    React.createElement(MsgTool, {switchCallback: this.switchCallback})
 	                ), 
 	                React.createElement("div", {className: "panel-body"}, 
-	                    React.createElement(MsgContent, {messages: this.state.messages, system: this.state.system, 
+	                    React.createElement(MsgContent, {messages: this.state.messages, 
+	                                system: this.state.system, 
 	                                scrollSwitch: this.state.scrollSwitch})
 	                ), 
 	                React.createElement("div", {className: "panel-footer"}, 
-	                    React.createElement(MsgForm, {user: this.props.user, socketEmitMsg: this.socketEmitMsg})
+	                    React.createElement(MsgForm, {user: this.props.user, 
+	                             room: this.props.room, 
+	                             socketEmitMsg: this.socketEmitMsg}
+	                    )
 	                )
 	            )
 	        )
@@ -105,7 +108,7 @@
 	    }
 	});
 	
-	ReactDOM.render(React.createElement(ChatApp, {user: user}), document.getElementById("content"))
+	ReactDOM.render(React.createElement(ChatApp, {user: user, room: room}), document.getElementById("content"))
 
 /***/ },
 /* 1 */
