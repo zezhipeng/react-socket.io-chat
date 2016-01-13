@@ -10,8 +10,13 @@ var ChatApp = React.createClass({
         return {messages: [], system: [], scrollSwitch: true}
     },
     componentDidMount: function () {
+        socket.emit("init",{})
         socket.on("join", this.handleJoin);
         socket.on("msg", this.handleMsgRce);
+        socket.on("system", this.handleSystem);
+    },
+    handleSystem:function(sys){
+        console.log(sys)
     },
     handleJoin: function (msg) {
         console.log(msg);
@@ -25,7 +30,7 @@ var ChatApp = React.createClass({
         }, 5000)
     },
     handleMsgRce: function (msg) {
-        console.log(this.state);
+        console.log(msg);
         var {messages}=this.state;
         messages.push(msg)
         this.setState({messages});
@@ -48,9 +53,7 @@ var ChatApp = React.createClass({
                                 scrollSwitch={this.state.scrollSwitch}/>
                 </div>
                 <div className="panel-footer">
-                    <MsgForm user={this.props.user}
-                             room={this.props.room}
-                             socketEmitMsg={this.socketEmitMsg}
+                    <MsgForm socketEmitMsg={this.socketEmitMsg}
                     />
                 </div>
             </div>
@@ -59,4 +62,4 @@ var ChatApp = React.createClass({
     }
 });
 
-ReactDOM.render(<ChatApp user={user} room={room}/>, document.getElementById("content"))
+ReactDOM.render(<ChatApp/>, document.getElementById("content"))

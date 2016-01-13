@@ -10,6 +10,26 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/test");
+var db = mongoose.connection
+var mongoStore = require("connect-mongo")(session);
+
+db.once("open",function(){
+    console.log("db connected")
+})
+
+var sessionStore = new mongoStore({
+    mongooseConnection: db,
+    ttl: 7 * 24 * 60 * 60
+});
+
+var _session = session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'uwotm8',
+    store: sessionStore
+});
 
 var app = express();
 
@@ -19,9 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(methodOverride());
-app.use(session({ resave: true,
-    saveUninitialized: true,
-    secret: 'uwotm8' }));
+app.use(_session);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());

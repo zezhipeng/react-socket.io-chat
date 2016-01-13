@@ -9,7 +9,7 @@ module.exports = React.createClass({
     handleSubmit: function (e) {
         e.preventDefault();
         if (this.state.text) {
-            var msg = {text: this.state.text, user: this.props.user};
+            var msg = {text: this.state.text};
             this.props.socketEmitMsg(msg)
             this.setState({text: "", disabled: true,hide:true})
         }

@@ -59,8 +59,13 @@
 	        return {messages: [], system: [], scrollSwitch: true}
 	    },
 	    componentDidMount: function () {
+	        socket.emit("init",{})
 	        socket.on("join", this.handleJoin);
 	        socket.on("msg", this.handleMsgRce);
+	        socket.on("system", this.handleSystem);
+	    },
+	    handleSystem:function(sys){
+	        console.log(sys)
 	    },
 	    handleJoin: function (msg) {
 	        console.log(msg);
@@ -74,7 +79,7 @@
 	        }, 5000)
 	    },
 	    handleMsgRce: function (msg) {
-	        console.log(this.state);
+	        console.log(msg);
 	        var $__0=this.state,messages=$__0.messages;
 	        messages.push(msg)
 	        this.setState({messages:messages});
@@ -97,9 +102,7 @@
 	                                scrollSwitch: this.state.scrollSwitch})
 	                ), 
 	                React.createElement("div", {className: "panel-footer"}, 
-	                    React.createElement(MsgForm, {user: this.props.user, 
-	                             room: this.props.room, 
-	                             socketEmitMsg: this.socketEmitMsg}
+	                    React.createElement(MsgForm, {socketEmitMsg: this.socketEmitMsg}
 	                    )
 	                )
 	            )
@@ -108,7 +111,7 @@
 	    }
 	});
 	
-	ReactDOM.render(React.createElement(ChatApp, {user: user, room: room}), document.getElementById("content"))
+	ReactDOM.render(React.createElement(ChatApp, null), document.getElementById("content"))
 
 /***/ },
 /* 1 */
@@ -25105,7 +25108,7 @@
 	    handleSubmit: function (e) {
 	        e.preventDefault();
 	        if (this.state.text) {
-	            var msg = {text: this.state.text, user: this.props.user};
+	            var msg = {text: this.state.text};
 	            this.props.socketEmitMsg(msg)
 	            this.setState({text: "", disabled: true,hide:true})
 	        }
