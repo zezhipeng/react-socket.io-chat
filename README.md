@@ -16,3 +16,7 @@ You can send a wink
 the user "test" will join the room "12"
 
  ![image](https://github.com/zezhipeng/react-socket.io-chat/blob/master/public/images/demo.png?raw=true)
+
+
+ thanks https://github.com/Ranks/emojione
+        https://github.com/thomaspark/bootswatch
