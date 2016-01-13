@@ -1,19 +1,17 @@
 var express = require('express');
 var router = express.Router();
-
+var _ = require("underscore")
 /* GET home page. */
-
+var user={
+    name:"test"
+}
 
 router.get('/', function(req, res) {
-  var room = req.query.room
-  var user = req.query.user
-  user= JSON.parse(user)
-  console.log(typeof user)
   res.render('index',
       {
         title: 'Express',
-        user:user,
-        room:room
+        user:JSON.stringify(user),
+        room:req.query.room
       }
   );
 });
